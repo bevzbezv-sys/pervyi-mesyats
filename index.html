@@ -157,6 +157,49 @@
         saveLocal();
       });
       answerArea.append(label,ta);
+      const voiceBtn = document.createElement("button");
+      voiceBtn.type = "button";
+      voiceBtn.className = "secondary";
+      voiceBtn.style.marginTop = "10px";
+      voiceBtn.textContent = "🎤 Дать интервью";
+
+      const voiceStatus = document.createElement("small");
+      voiceStatus.className = "note";
+      voiceStatus.style.display = "block";
+      voiceStatus.style.marginTop = "8px";
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (!SpeechRecognition) {
+        voiceStatus.textContent = "Голосовой ввод не поддерживается в этом браузере. Напишите ответ текстом.";
+      } else {
+        voiceBtn.addEventListener("click", () => {
+          const recognition = new SpeechRecognition();
+          recognition.lang = "ru-RU";
+          recognition.interimResults = false;
+
+          voiceStatus.textContent = "Слушаю…";
+
+          recognition.onresult = (event) => {
+            const spokenText = event.results[0][0].transcript;
+            ta.value = ta.value ? ta.value + " " + spokenText : spokenText;
+            ta.dispatchEvent(new Event("input", { bubbles: true }));
+            voiceStatus.textContent = "Проверьте текст перед отправкой.";
+          };
+
+          recognition.onerror = () => {
+            voiceStatus.textContent = "Не удалось распознать речь. Попробуйте ещё раз.";
+          };
+
+          try {
+            recognition.start();
+          } catch (e) {
+            voiceStatus.textContent = "Не удалось включить микрофон. Попробуйте ещё раз.";
+          }
+        });
+      }
+
+      answerArea.append(voiceBtn, voiceStatus);
     }
     nextBtn.textContent = state.index === questions.length-1 ? "Завершить" : "Дальше";
     backBtn.classList.toggle("hidden", state.index === 0);
