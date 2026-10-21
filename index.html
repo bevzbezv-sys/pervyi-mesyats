@@ -67,7 +67,7 @@
   <section class="panel" id="screen" aria-live="polite">
     <div class="eyebrow" id="eyebrow">Небольшое интервью</div>
     <h1 id="questionTitle">Знакомство с Шефом</h1>
-    <p id="questionText">Несколько коротких вопросов помогут нам лучше понять опыт студентов с готовкой и покупкой продуктов. Обычно это занимает 3–5 минут.</p>
+    <p id="questionText">Несколько вопросов помогут нам лучше понять, как студенты готовят и покупают еду. Отвечать нужно на все вопросы.</p>
     <div id="answerArea"></div>
     <div class="actions">
       <button class="secondary" id="backBtn" type="button">Назад</button>
@@ -79,17 +79,30 @@
 <script>
 (() => {
   const questions = [
-    { id:"living", kind:"single", section:"Знакомство", title:"Ты сейчас живёшь отдельно от родителей?", text:"Это поможет нам понять, какой у тебя опыт самостоятельной организации питания.", options:["Да, живу самостоятельно","Нет, живу с родителями","Живу отдельно уже довольно давно","Предпочитаю не отвечать"] },
-    { id:"months", kind:"single", section:"Знакомство", title:"Как давно ты живёшь самостоятельно?", text:"Выбери вариант, который ближе всего к твоей ситуации.", options:["До 3 месяцев","От 3 до 6 месяцев","От 6 до 12 месяцев","Больше года","Сейчас живу с родителями","Предпочитаю не отвечать"] },
-    { id:"home_food", kind:"single", section:"Знакомство", title:"Кто обычно занимался едой в твоей семье?", text:"Подумай о том, как это было до самостоятельной жизни или как устроено сейчас.", options:["В основном я","В основном родители или другие родственники","Занимались вместе","По-разному","Предпочитаю не отвечать"] },
-    { id:"late_day", kind:"single", section:"Повседневные ситуации", title:"Ты поздно вернулся домой, а готовой еды нет. Что обычно делаешь?", text:"Вспомни, как поступал в похожей ситуации в последнее время.", options:["Готовлю что-то быстрое","Заказываю еду","Покупаю что-нибудь готовое по дороге","Перекусываю тем, что есть дома","Откладываю еду на потом","Другое","Не хочу отвечать"], experience:true },
-    { id:"breakfast", kind:"single", section:"Повседневные ситуации", title:"До выхода из дома осталось 10 минут. Что происходит с завтраком?", text:"Расскажи о том, как обычно бывает у тебя, а не как хотелось бы в идеале.", options:["Готовлю что-то быстрое","Беру еду с собой","Покупаю что-нибудь по дороге","Ухожу без завтрака","Завтракаю тем, что уже приготовлено","Другое","Не хочу отвечать"], experience:true },
-    { id:"shopping", kind:"single", section:"Повседневные ситуации", title:"Как обычно выбираешь, какие продукты купить?", text:"Подумай о последнем походе в магазин.", options:["Заранее составляю список","Покупаю привычные продукты","Решаю прямо в магазине","Покупаю продукты под конкретное блюдо","За меня часто покупает кто-то другой","Другое","Не хочу отвечать"], experience:true },
-    { id:"leftovers", kind:"single", section:"Повседневные ситуации", title:"Ты замечаешь, что продукты скоро испортятся. Что обычно делаешь?", text:"Вспомни последний похожий случай, если он был.", options:["Готовлю из них что-нибудь","Замораживаю или сохраняю на потом","Стараюсь использовать в ближайший приём пищи","Иногда забываю о них","Выбрасываю, если уже нельзя использовать","Другое","Не хочу отвечать"], experience:true },
-    { id:"deadline", kind:"single", section:"Повседневные ситуации", title:"Вспомни загруженную неделю с учёбой или дедлайнами. Как тогда меняется питание?", text:"Здесь важно то, что действительно происходило у тебя.", options:["Готовлю сразу на несколько дней","Готовлю что-то очень быстрое","Чаще покупаю готовую еду","Чаще заказываю доставку","Ем нерегулярно или откладываю приёмы пищи","Особенно не меняется","Другое","Не хочу отвечать"], experience:true },
-    { id:"home_food_memory", kind:"text", section:"Личный опыт", title:"Бывает, что скучаешь по домашней еде?", text:"Если да, расскажи, о каком блюде или ситуации вспоминаешь. Можно ответить коротко или пропустить.", placeholder:"Напиши свой ответ…", optional:true },
-    { id:"difficulty", kind:"text", section:"Личный опыт", title:"Вспомни последний случай, когда тебе было трудно организовать питание. Что произошло?", text:"Можно рассказать своими словами. Если удобнее, в настоящей версии интервью здесь будет возможность ответить голосом.", placeholder:"Что произошло? Как ты поступил(а)?", optional:true },
-    { id:"needs", kind:"text", section:"Идеи для сервиса", title:"Что могло бы облегчить тебе готовку или организацию еды?", text:"Подойдут любые идеи: планирование, покупки, рецепты, хранение продуктов или что-то другое.", placeholder:"Расскажи, что помогло бы именно тебе…", optional:true }
+    { id:"living", kind:"single", section:"Знакомство", title:"Ты сейчас живёшь отдельно от родителей?", text:"Это поможет нам понять, какой у тебя опыт самостоятельной организации питания.", options:["Да, живу самостоятельно","Нет, живу с родителями","Живу отдельно уже довольно давно"] },
+    { id:"months", kind:"single", section:"Знакомство", title:"Как давно ты живёшь самостоятельно?", text:"Выбери вариант, который ближе всего к твоей ситуации.", options:["До 3 месяцев","От 3 до 6 месяцев","От 6 до 12 месяцев","Больше года","Сейчас живу с родителями"] },
+    {"id": "food_choice", "kind": "single", "section": "Как ты выбираешь еду", "title": "Как ты обычно решаешь, что будешь есть?", "text": "", "options": ["Заранее решаю, что буду готовить", "Решаю перед самой едой", "Готовлю одни и те же привычные блюда", "Чаще беру что-то готовое"], "experience": true},
+    {"id": "no_idea", "kind": "single", "section": "Как ты выбираешь еду", "title": "Что ты делаешь, когда хочется что-то приготовить, а что именно, не знаешь?", "text": "", "options": ["Ищу рецепт в интернете", "Готовлю что-нибудь привычное", "Смотрю, что есть дома", "Беру готовое или заказываю доставку"], "experience": true},
+    {"id": "food_path", "kind": "text", "section": "Как ты выбираешь еду", "title": "Расскажи, как обычно проходит путь от «пора бы поесть» до готовой еды. На каком этапе у тебя чаще всего возникают сложности?", "text": "", "placeholder": "Напиши или надиктуй ответ…"},
+    {"id": "tired", "kind": "single", "section": "Когда нет сил", "title": "Что ты делаешь, когда нет сил или времени готовить?", "text": "", "options": ["Готовлю что-нибудь быстрое", "Покупаю готовую еду", "Заказываю доставку", "Откладываю еду или обхожусь перекусом"], "experience": true},
+    {"id": "obstacle", "kind": "single", "section": "Когда нет сил", "title": "Что чаще всего мешает тебе нормально питаться?", "text": "", "options": ["Не знаю, что выбрать", "Сложно спланировать покупки и уложиться в бюджет", "Не хватает времени и сил", "Продукты портятся, не успеваю их использовать"], "experience": true},
+    {"id": "last_fail", "kind": "text", "section": "Когда нет сил", "title": "Вспомни последний случай, когда с едой вышло совсем не так, как задумывалось. Что произошло и чем всё закончилось?", "text": "", "placeholder": "Напиши или надиктуй ответ…"},
+    {"id": "no_products", "kind": "text", "section": "Когда нет сил", "title": "Бывает, что хочется приготовить конкретное блюдо, но дома не хватает продуктов, а в магазине нужного не находится. Вспомни такой случай: как всё решилось?", "text": "", "placeholder": "Напиши или надиктуй ответ…"},
+    {"id": "time_sink", "kind": "text", "section": "Когда нет сил", "title": "Что в твоей готовке и покупке продуктов отнимает больше всего времени и сил? Как ты пытаешься это упростить?", "text": "", "placeholder": "Напиши или надиктуй ответ…"},
+    {"id": "remember", "kind": "single", "section": "Планы и привычки", "title": "Как ты обычно следишь за делами, чтобы ничего не забыть?", "text": "", "options": ["Записываю задачи и планы", "Пользуюсь приложениями и напоминаниями", "Живу по привычному распорядку", "Делаю всё по мере необходимости"], "experience": true},
+    {"id": "tools", "kind": "single", "section": "Планы и привычки", "title": "Чем ты пользуешься, когда планируешь еду и покупки?", "text": "", "options": ["Заметками или списком покупок", "Календарём или планировщиком", "Приложениями с рецептами или меню на неделю", "Ничем, обхожусь привычками"], "experience": true},
+    {"id": "new_routine", "kind": "single", "section": "Планы и привычки", "title": "Что помогает тебе привыкнуть к новому полезному распорядку?", "text": "", "options": ["Чёткий план", "Напоминания в нужный момент", "Заметный результат и прогресс", "Простота, чтобы не тратить много сил"], "experience": true},
+    {"id": "dropped_app", "kind": "text", "section": "Планы и привычки", "title": "Какое приложение или инструмент сначала казались тебе удобными, а потом стали не нужны? Почему так вышло?", "text": "", "placeholder": "Напиши или надиктуй ответ…"},
+    {"id": "changed", "kind": "single", "section": "Что изменилось", "title": "Что изменилось в твоём питании, когда еда стала целиком на тебе?", "text": "", "options": ["Чаще готовлю дома", "Чаще покупаю готовое", "Ем не так регулярно", "Больше планирую покупки и еду"], "experience": true},
+    {"id": "stress", "kind": "single", "section": "Что изменилось", "title": "Что обычно происходит с твоим питанием в напряжённые периоды учёбы?", "text": "", "options": ["Всё идёт как обычно", "Готовлю блюда попроще", "Чаще беру готовое или заказываю доставку", "Откладываю еду или пропускаю её"], "experience": true},
+    {"id": "hard_period", "kind": "text", "section": "Что изменилось", "title": "Вспомни время, когда с едой было особенно тяжело. Что на это влияло и как удавалось справляться?", "text": "", "placeholder": "Напиши или надиктуй ответ…"},
+    {"id": "impact", "kind": "text", "section": "Что изменилось", "title": "Влияет ли то, как ты питаешься, на самочувствие, настроение, учёбу или расходы? Расскажи на конкретном примере.", "text": "", "placeholder": "Напиши или надиктуй ответ…"},
+    { id:"home_food_memory", kind:"text", section:"Личный опыт", title:"Бывает, что скучаешь по домашней еде?", text:"Если да, расскажи, о каком блюде или ситуации вспоминаешь. Можно ответить коротко.", placeholder:"Напиши свой ответ…" },
+    {"id": "coop_freq", "kind": "single", "section": "Готовка вместе", "title": "Как часто ты готовишь вместе с друзьями, партнёром, соседями или семьёй?", "text": "", "options": ["Несколько раз в неделю", "Примерно раз в неделю", "Несколько раз в месяц", "Реже раза в месяц"], "experience": true},
+    {"id": "coop_value", "kind": "single", "section": "Готовка вместе", "title": "Что для тебя важнее всего, когда готовите вместе?", "text": "", "options": ["Приготовить быстрее и проще", "Провести время с другими", "Попробовать новые блюда", "Поделить расходы и обязанности"], "experience": true},
+    {"id": "coop_roles", "kind": "single", "section": "Готовка вместе", "title": "Как у вас обычно распределяются дела, когда готовите вместе?", "text": "", "options": ["Договариваемся заранее", "Каждый берёт то, что умеет", "Один организует, остальные помогают", "Готовим одновременно, без чёткого распределения"], "experience": true},
+    {"id": "coop_agree", "kind": "text", "section": "Готовка вместе", "title": "Вспомни случай, когда нужно было договориться с другими о блюде, покупках или обязанностях. Что оказалось самым сложным и как вы это решили?", "text": "", "placeholder": "Напиши или надиктуй ответ…"},
+    {"id": "coop_last", "kind": "text", "section": "Готовка вместе", "title": "Вспомни последний раз, когда вы готовили вместе. Что прошло хорошо, а что было неудобно?", "text": "", "placeholder": "Напиши или надиктуй ответ…"}
   ];
 
   const state = { index:-1, answers:{}, history:[] };
@@ -98,6 +111,15 @@
   const answerArea = $("answerArea"), nextBtn = $("nextBtn"), backBtn = $("backBtn");
   const defaultGreeting = "Привет! Давай поговорим о том, как ты организуешь еду в обычной жизни. Здесь нет правильных и неправильных ответов.";
 
+  function hasAnswer() {
+    const q = questions[state.index];
+    if (!q) return true;
+    const a = state.answers[q.id];
+    return !!(a && String(a.value ?? "").trim() !== "");
+  }
+  function updateNext() {
+    nextBtn.disabled = state.index >= 0 && state.index < questions.length && !hasAnswer();
+  }
   function saveLocal() {
     try { sessionStorage.setItem("pervyi-mesyats-demo", JSON.stringify(state)); } catch(e) {}
   }
@@ -113,11 +135,13 @@
     $("progressFill").style.width = "0%";
     $("eyebrow").textContent = "Небольшое интервью";
     title.textContent = "Знакомство с Шефом";
-    text.textContent = "Несколько коротких вопросов помогут нам лучше понять опыт студентов с готовкой и покупкой продуктов. Обычно это занимает 3–5 минут.";
+    text.classList.remove("hidden");
+    text.textContent = "Несколько вопросов помогут нам лучше понять, как студенты готовят и покупают еду. Отвечать нужно на все вопросы.";
     answerArea.innerHTML = "";
     $("speaker").textContent = "Шеф на связи!";
     $("characterLine").textContent = defaultGreeting;
     nextBtn.textContent = "Начать";
+    nextBtn.disabled = false;
     backBtn.classList.add("hidden");
     $("privacyNote").textContent = "Ответы сохраняются в этом браузере и отправляются в Google Таблицу. Не вводи личные или чувствительные данные.";
   }
@@ -128,9 +152,10 @@
     $("progressFill").style.width = `${((state.index+1)/questions.length)*100}%`;
     $("eyebrow").textContent = q.section;
     title.textContent = q.title;
-    text.textContent = q.text;
+    text.textContent = q.text || "";
+    text.classList.toggle("hidden", !q.text);
     $("speaker").textContent = "Шеф спрашивает";
-    $("characterLine").textContent = q.experience ? "Расскажи, как бывает у тебя на самом деле." : "Отвечай так, как тебе удобно. Можно пропустить вопрос.";
+    $("characterLine").textContent = q.experience ? "Расскажи, как бывает у тебя на самом деле." : "Отвечай так, как тебе удобно.";
     answerArea.innerHTML = "";
     if (q.kind === "single") {
       const wrap = document.createElement("div"); wrap.className = "answers";
@@ -144,17 +169,19 @@
           wrap.querySelectorAll("button").forEach(btn => { btn.classList.remove("selected"); btn.setAttribute("aria-pressed","false"); });
           b.classList.add("selected"); b.setAttribute("aria-pressed","true");
           saveLocal();
+          updateNext();
         });
         wrap.appendChild(b);
       });
       answerArea.appendChild(wrap);
     } else {
-      const label = document.createElement("label"); label.className = "field-label"; label.htmlFor = "freeAnswer"; label.textContent = "Твой ответ (необязательно)";
+      const label = document.createElement("label"); label.className = "field-label"; label.htmlFor = "freeAnswer"; label.textContent = "Твой ответ";
       const ta = document.createElement("textarea"); ta.id = "freeAnswer"; ta.placeholder = q.placeholder || "Напиши ответ…"; ta.maxLength = 2000;
       ta.value = state.answers[q.id]?.value || "";
       ta.addEventListener("input", () => {
         state.answers[q.id] = { question_id:q.id, answer_type:"text", value:ta.value, answered_at:new Date().toISOString() };
         saveLocal();
+        updateNext();
       });
       answerArea.append(label,ta);
       const voiceBtn = document.createElement("button");
@@ -178,7 +205,7 @@
           recognition.lang = "ru-RU";
           recognition.interimResults = false;
 
-          voiceStatus.textContent = "Слушаю…";
+          voiceStatus.textContent = "Слушаю… Говорите по-русски.";
 
           recognition.onresult = (event) => {
             const spokenText = event.results[0][0].transcript;
@@ -202,6 +229,7 @@
       answerArea.append(voiceBtn, voiceStatus);
     }
     nextBtn.textContent = state.index === questions.length-1 ? "Завершить" : "Дальше";
+    updateNext();
     backBtn.classList.toggle("hidden", state.index === 0);
     $("privacyNote").textContent = "Ответы сохраняются в этом браузере и отправляются в Google Таблицу. Не вводи личные или чувствительные данные.";
   }
@@ -210,11 +238,13 @@
     $("progressFill").style.width = "100%";
     $("eyebrow").textContent = "Спасибо за участие";
     title.textContent = "Спасибо, что поделился своим опытом!";
+    text.classList.remove("hidden");
     text.textContent = "Ты можешь скачать свои ответы в CSV-файле. Ответы также отправляются в Google Таблицу.";
-    answerArea.innerHTML = '<p class="note">Следующий этап — подключить Telegram и автоматическое сохранение ответов. Голосовая расшифровка пока не подключена.</p>';
+    answerArea.innerHTML = "";
     $("speaker").textContent = "Шеф благодарит тебя!";
     $("characterLine").textContent = "Каждый опыт помогает лучше понять, что людям действительно нужно.";
     nextBtn.textContent = "Скачать ответы CSV";
+    nextBtn.disabled = false;
     backBtn.classList.toggle("hidden", state.index < 0);
     $("privacyNote").textContent = "Экспорт включает только ответы из этой демонстрационной сессии.";
   }
@@ -246,7 +276,9 @@
     const q = questions[state.index];
     const answer = state.answers[q.id];
 
-    if (answer && String(answer.value ?? "").trim() !== "") {
+    if (!hasAnswer()) return;
+
+    {
       await sendAnswerToGoogle(
         q.id,
         q.title,
